@@ -166,7 +166,8 @@ footer .footer_discl {
     /* width: 1280px; */
     width: 100%;
     margin-top: 90px;
-    height: 800px;
+    /* height: 800px; */
+    height:85vh;
     overflow: hidden;
 }
 
