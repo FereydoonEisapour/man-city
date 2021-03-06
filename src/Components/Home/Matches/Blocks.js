@@ -1,4 +1,4 @@
-import { useEffect, useState, Component } from "react"
+import { useEffect, useState } from "react"
 import { firebaseMatches } from './../../../Firebase'
 import { firebaseLooper, reserveArray } from '../../Ui/Misc'
 import Slide from 'react-reveal'

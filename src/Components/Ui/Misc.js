@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 export const Tag = (props) => {
     const template = <div
         style={{
-            ...props.style,
             padding: '5px 10px',
             display: 'inline-block',
             fontFamily: 'Righteous',
+            ...props.style,
         }}
     >
         {props.children}
