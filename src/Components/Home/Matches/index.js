@@ -1,4 +1,5 @@
 import { Tag } from '../../Ui/Misc'
+import Blocks from './Blocks'
 const HomeMatches = () => {
     return (
         <div className="home_matches_wrapper">
@@ -13,7 +14,7 @@ const HomeMatches = () => {
 
                 >Matches</Tag>
 
-             Blocks
+                <Blocks />
 
                 <Tag
                     link={true}
@@ -23,7 +24,7 @@ const HomeMatches = () => {
                         fontSize: '22px',
                         color: '#0e1731'
                     }}>
-                   See more matches
+                    See more matches
                 </Tag>
             </div>
         </div>
