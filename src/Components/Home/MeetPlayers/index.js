@@ -27,7 +27,7 @@ function MeetPlayers() {
                                 <Tag
                                     style={{
                                         background: "#0e1731",
-                                        fontSize: '100px',
+                                        fontSize: '80px',
                                         color: "#ffffff",
                                         display: 'inline-block',
                                         marginBottom: '20px',
