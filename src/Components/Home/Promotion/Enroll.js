@@ -2,7 +2,7 @@ import { Component } from 'react'
 import Fade from 'react-reveal/Fade'
 import { validate } from '../../Ui/Misc';
 import FormField from '../../Ui/FormFileld'
-
+import {firebasePromotions} from '../../../Firebase'
 
 class Enroll extends Component {
 
@@ -30,12 +30,12 @@ class Enroll extends Component {
     }
 
     updateForm(element) {
-        const newFormdata = { ...this.state.formdata }      // formdata
-        const newElement = { ...newFormdata[element.id] }   // input
+        const newFormdata = { ...this.state.formdata }      
+        const newElement = { ...newFormdata[element.id] }   
 
-        newElement.value = element.event.target.value;      // 
+        newElement.value = element.event.target.value;      
 
-        let validData = validate(newElement)                // [ bool , 'message']
+        let validData = validate(newElement)               
 
         newElement.valid = validData[0];
         newElement.validationMessage = validData[1]
@@ -50,8 +50,52 @@ class Enroll extends Component {
 
     submitForm(event) {
         event.preventDefault();
-    }
+        let dataToSubmit={};
+        let formIsValid=true
 
+        for(let key in this.state.formdata){
+            dataToSubmit[key]=this.state.formdata[key].value
+            formIsValid=this.state.formdata[key].valid && formIsValid
+            console.log(formIsValid);
+        }
+        if(formIsValid){
+            firebasePromotions.orderByChild('email').equalTo(dataToSubmit.email).once('value').then((snapshot)=>{
+               if(snapshot.val()===null){
+                firebasePromotions.push(dataToSubmit)
+                 this.resetFormSuccess(true);
+               }else{
+                   this.resetFormSuccess(false);
+               }
+            })
+          
+        }else{
+            this.setState({
+                formError:true
+            })
+        }
+    }
+    resetFormSuccess(type){
+        const newFormData={...this.state.formdata}
+
+        for(let key in newFormData){
+            newFormData[key].value='';
+            newFormData[key].valid=false;
+            newFormData[key].validationMessage=''
+        }
+        this.setState({
+            formError:false,
+            formdata:newFormData,
+            formSuccess: type ? 'Congratulations' : 'Already on the database'
+        })
+        this.sucssessMessage ()
+    }
+    sucssessMessage(){
+        setTimeout(() => {
+            this.setState({
+                formSuccess:''
+            })
+        }, 2000);
+    }
     render() {
         return (
             <Fade>
@@ -66,7 +110,17 @@ class Enroll extends Component {
                                 formdata={this.state.formdata.email}
                                 change={(element) => this.updateForm(element)}
                             />
+                            {this.state.formError?
+                            <div className=" error_label">Something went wrong , try again</div>
+                           :null
+                           }
+                           <div className=" success_label">{this.state.formSuccess}</div>
+                            <button onClick={(event) => this.submitForm(event)}>Enroll</button>
+                            <div className="enroll_discl">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </div>
                         </div>
+
                     </form>
                 </div>
             </Fade>
@@ -74,74 +128,4 @@ class Enroll extends Component {
     }
 }
 
-export default Enroll;
-
-
-// import Fade from 'react-reveal/Fade'
-// import { validate } from '../../Ui/Misc';
-// import FormField from '../../Ui/FormFileld'
-
-// function Enroll() {
-//     let state = {
-//         formError: false,
-//         formSuccess: '',
-//         formdata: {
-//             email: {
-//                 element: 'input',
-//                 value: '',
-//                 config: {
-//                     name: 'email_input',
-//                     type: 'email',
-//                     placeholder: 'Enter your email'
-//                 },
-//                 validation: {
-//                     required: true,
-//                     email: true
-//                 },
-//                 valid: false,
-//                 validationMessage: ''
-//             }
-//         }
-//     }
-//     function formSubmit(event) {
-//         event.preventDefault();
-//     }
-//     const updateForm = (element) => {
-//         console.log(element);
-//         const newFormData = { ...state.formdata }
-//         const newElement = { ...newFormData[element.id] }
-
-//         newElement.value = element.event.target.value;
-
-//         let validData = validate(newElement)
-//         newElement.valid = validData[0];
-//         newElement.validationMessage = validData[1]
-
-//         newFormData[element.id] = newElement;
-
-//         state.formdata = newFormData
-//         state.formError = false
-
-//     }
-//     return (
-//         <Fade>
-//             <div className=" enroll_wrapper">
-//                 <form onSubmit={(event) => formSubmit(event)}>
-//                     <div className=" enroll_title">
-//                         Enter your email
-//                     </div>
-//                     <div className=" enroll_input">
-//                         <FormField
-//                             id="email"
-//                             formdata={state.formdata.email}
-//                             change={(element) => updateForm(element)}
-//                         />
-//                     </div>
-
-//                 </form>
-//             </div>
-//         </Fade>
-//     )
-// }
-
-// export default Enroll
+export default Enroll
