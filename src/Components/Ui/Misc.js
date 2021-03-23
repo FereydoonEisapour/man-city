@@ -52,5 +52,6 @@ export const validate = (element) => {
         const message = !valid ? 'This field is required' : ''
         error = !valid ? [valid, message] : error
     }
+    //  Todo: password lenght to 6
     return error
 }

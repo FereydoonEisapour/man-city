@@ -3,7 +3,7 @@ import ToolBar from '@material-ui/core/ToolBar';
 import Button from '@material-ui/core/Button';
 
 import { Link } from 'react-router-dom'
-import {CityLogo} from '../Ui/Icon';
+import { CityLogo } from '../Ui/Icon';
 
 function Header() {
     return (
@@ -34,6 +34,9 @@ function Header() {
                 </Link>
                 <Link to="/the_matches">
                     <Button color="inherit" >Matches</Button>
+                </Link>
+                <Link to="/signin">
+                    <Button color="inherit" >signin</Button>
                 </Link>
             </ToolBar>
         </AppBar>
