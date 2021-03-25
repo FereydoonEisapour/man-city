@@ -78,6 +78,8 @@ class SignIn extends Component {
                     this.props.history.push('/dashboard')
                 })
                 .catch((error) => {
+                    // let errorCode = error.code;
+                    // let errorMessage = error.message;
                     this.setState({
                         formError: true
                     })
@@ -87,10 +89,7 @@ class SignIn extends Component {
                 formError: true
             })
         }
-
     }
-
-
     render() {
         return (
             <div className="container">
