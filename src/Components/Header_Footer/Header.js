@@ -38,6 +38,9 @@ function Header() {
                 <Link to="/signin">
                     <Button color="inherit" >signin</Button>
                 </Link>
+                <Link to="/dashboard">
+                    <Button color="inherit" >dashboard</Button>
+                </Link>
             </ToolBar>
         </AppBar>
     )
