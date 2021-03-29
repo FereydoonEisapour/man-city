@@ -24,8 +24,8 @@ function AdminMatches() {
                 setIsLoading(false)
                 setMatches(reserveArray(Matches))
             })
-        return () => {
-        }
+        //return () => {
+        //}
     }, [])
 
     return (

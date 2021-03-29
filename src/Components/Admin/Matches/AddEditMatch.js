@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import AdminLayout from '../../HOC/AdminLayout'
-import { firebaseDB, firebaseTeams } from '../../../Firebase'
+import { firebaseDB, firebaseMatches, firebaseTeams } from '../../../Firebase'
 import FormField from '../../Ui/FormFileld'
 import { firebaseLooper, validate } from '../../Ui/Misc'
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 class AddEditMatch extends Component {
     state = {
         matchId: '',
@@ -216,7 +216,7 @@ class AddEditMatch extends Component {
                 })
         }
         if (!matchId) {
-            // add match
+            getTeams(false, 'Add Match')
         } else {
             firebaseDB.ref(`matches/${matchId}`).once('value')
                 .then((snapshot) => {
@@ -252,7 +252,9 @@ class AddEditMatch extends Component {
                     .then(() => { this.successFrom('Updated correctly') })
                     .catch(() => { this.setState({ formError: true }) })
             } else {
-                //add match
+                firebaseMatches.push(dataToSubmit)
+                    .then(() => { this.props.history.push('/admin_matches') })
+                    .catch(() => { this.setState({ formError: true }) })
             }
         } else {
             this.setState({
@@ -273,7 +275,10 @@ class AddEditMatch extends Component {
             <AdminLayout>
                 <div className="editmatch_dialog_wrapper">
                     <h2>
-                        {this.state.formType}
+                        {this.state.formType ?
+                            this.state.formType
+                            : <CircularProgress thickness={7} style={{ color: '#98c5e9' }} />
+                        }
                     </h2>
                     <div>
                         <form onSubmit={(event) => this.submitForm(event)}>
